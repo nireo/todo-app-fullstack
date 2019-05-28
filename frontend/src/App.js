@@ -16,12 +16,8 @@ const App = () => {
             itemTime: `${time.getHours()}:${time.getMinutes()}`
         }
 
-        setItems(items.concat())
-
-        console.log(time)
-
-
-
+        setItems(items.concat(itemTemplate))
+        setNewItem('')
     }
 
     const handleItem = (event) => {
