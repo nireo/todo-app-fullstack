@@ -1,10 +1,20 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import TodoItem from "./components/todoitem"
+import itemService from "./services/item"
 
 const App = () => {
     const [items, setItems] = useState([])
     const [newItem, setNewItem] = useState('')
+
+    useEffect(() => {
+        itemService
+            .getAll()
+            .then(initialItems => {
+                setItems(initialItems)
+            })
+    }, [])
+
 
     const addItems = (event) => {
         const time = new Date()
