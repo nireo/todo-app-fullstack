@@ -16,6 +16,8 @@ const App = () => {
             itemTime: `${time.getHours()}:${time.getMinutes()}`
         }
 
+        setItems(items.concat())
+
         console.log(time)
 
 
@@ -25,6 +27,16 @@ const App = () => {
     const handleItem = (event) => {
         setNewItem(event.target.value)
     }
+
+    /*
+    const handleRemove = (name) => {
+        const toBeDeleted = items.find(item => item.name === name)
+
+        if (window.confirm(`remove ${toBeDeleted.name}?`)) {
+
+        }
+    }*/
+
 
     return (
         <div className="container">
@@ -39,26 +51,9 @@ const App = () => {
                         <button type="submit" className="btn btn-primary mb-2">Add new</button>
                     </form>
                 </div>
+                <TodoItem items={items}/>
 
-                <div className="media text-muted pt-3">
-                    <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,
-                        tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                    </p>
-                </div>
-                <div className="media text-muted pt-3">
-                    <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,
-                        tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                    </p>
-                </div>
-                <div className="media text-muted pt-3">
-                    <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                        Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo,
-                        tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                    </p>
-                </div>
-                <small className="d-block text-left mt-3">
+                <small className="d-block text-right mt-3">
                     <a href="https://github.com/nireo/todo-app-fullstack" target="_blank" rel="noopener noreferrer">Github</a>
                 </small>
             </div>
