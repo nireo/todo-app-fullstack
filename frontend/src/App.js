@@ -6,6 +6,22 @@ const App = () => {
     const [items, setItems] = useState([])
     const [newItem, setNewItem] = useState('')
 
+    const addItems = (event) => {
+        const time = new Date()
+        event.preventDefault()
+
+        // create item template
+        const itemTemplate = {
+            name: newItem,
+            itemTime: `${time.getHours()}:${time.getMinutes()}`
+        }
+
+        console.log(time)
+
+
+
+    }
+
     const handleItem = (event) => {
         setNewItem(event.target.value)
     }
@@ -15,11 +31,10 @@ const App = () => {
             <div className="my-3 p-3 bg-white rounded shadow-sm">
                 <h4 className="border-bottom border-gray pb-2 mb-0">Todo list</h4>
                 <div className="media text-muted pt-3">
-                    <form className="form-inline media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                    <form onSubmit={addItems} className="form-inline media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                         <h6>New Item</h6>
                         <div className="form-group mx-sm-3 mb-2">
-                            <label htmlFor="inputPassword2" className="sr-only">Password</label>
-                            <input className="form-control" />
+                            <input className="form-control" onChange={handleItem}/>
                         </div>
                         <button type="submit" className="btn btn-primary mb-2">Add new</button>
                     </form>
