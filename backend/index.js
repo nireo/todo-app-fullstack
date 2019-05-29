@@ -1,8 +1,20 @@
+require("dotenv").config()
 const express = require("express")
-const mongoose = require("mongoose")
+const Item = require("./models/item")
 const app = express()
-const port = 3001
+const cors = require("cors")
+const PORT = process.env.PORT
 
-app.listen(3000, () => {
-    console.log(`server running on port ${port}`)
+app.get("/", (req, res) => {
+    Item.find({})
+        .then(items => {
+            res.json(items.map(item => item.toJSON()))
+        })
+})
+
+
+
+
+app.listen(PORT, () => {
+    console.log(`server running on port ${PORT}`)
 })
