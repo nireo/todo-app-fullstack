@@ -6,6 +6,7 @@ import itemService from "./services/item"
 const App = () => {
     const [items, setItems] = useState([])
     const [newItem, setNewItem] = useState('')
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
         itemService
@@ -30,14 +31,22 @@ const App = () => {
             .create(itemTemplate)
             .then(response => {
                 setItems(items.concat(response))
-                setNewItem('')
+
+
             })
             .catch(error => {console.log(error)})
+        setNewItem('')
     }
 
-    const handleItem = (event) => {
+    const handleItem = event => {
         setNewItem(event.target.value)
     }
+
+    const handleSearch = event => {
+        setSearch(event.target.value)
+    }
+
+    const searchedItems = search ? items.filter(item => item.name.toLowerCase().includes(search.toLowerCase())) : items
 
 
     const handleRemove = (id) => {
@@ -55,6 +64,14 @@ const App = () => {
             <div className="my-3 p-3 bg-white rounded shadow-sm">
                 <h4 className="border-bottom border-gray pb-2 mb-0">Todo list</h4>
                 <div className="media text-muted pt-3">
+                    <form className="form-inline media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                        <h6>Search items: </h6>
+                        <div className="form-group mx-sm-3 mb-2">
+                            <input className="form-control" onChange={handleSearch}/>
+                        </div>
+                    </form>
+                </div>
+                <div className="media text-muted pt-3">
                     <form onSubmit={addItems} className="form-inline media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
                         <h6>New Item</h6>
                         <div className="form-group mx-sm-3 mb-2">
@@ -63,7 +80,7 @@ const App = () => {
                         <button type="submit" className="btn btn-primary mb-2">Add new</button>
                     </form>
                 </div>
-                <TodoItem items={items} removeItem={handleRemove}/>
+                <TodoItem items={searchedItems} removeItem={handleRemove}/>
                 <small className="d-block text-right mt-3">
                     <a href="https://github.com/nireo/todo-app-fullstack" target="_blank" rel="noopener noreferrer">Github</a>
                 </small>
