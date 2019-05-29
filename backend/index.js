@@ -1,9 +1,14 @@
 require("dotenv").config()
 const express = require("express")
 const Item = require("./models/item")
-const app = express()
+const bodyParser = require("body-parser")
 const cors = require("cors")
+
+const app = express()
 const PORT = process.env.PORT
+
+app.use(bodyParser.json())
+
 
 app.get("/", (req, res) => {
     Item.find({})
