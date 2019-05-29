@@ -8,6 +8,7 @@ const app = express()
 const PORT = process.env.PORT
 
 app.use(bodyParser.json())
+app.use(cors())
 
 
 app.get("/", (req, res) => {
@@ -15,6 +16,29 @@ app.get("/", (req, res) => {
         .then(items => {
             res.json(items.map(item => item.toJSON()))
         })
+        .catch(error => {console.log(error)})
+})
+
+app.post("/", (req, res) => {
+    const body = req.body
+
+    if (body === undefined) {
+        return res.status(400).json({error: "missing content"})
+    }
+
+    const item = new Item({
+        name: body.name,
+        itemTime: body.itemTime
+    })
+
+    item.save()
+        .then(savedItem => {
+            return savedItem.toJSON()
+        })
+        .then(savedAndFormatted => {
+            res.json(savedAndFormatted)
+        })
+        .catch(error => {console.log(error)})
 })
 
 
