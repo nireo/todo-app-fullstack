@@ -2,6 +2,7 @@ import React from "react"
 
 const TodoItem = (props) => {
     const allItems = props.items.map(item => <div className="media text-muted pt-3">
+        <button className=" pb-3 mb-0 small lh-125 border-bottom border-gray" onClick={() => props.removeItem(item.id)}>delete</button>
         <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             {item.name}
         </p>

@@ -41,7 +41,13 @@ app.post("/", (req, res) => {
         .catch(error => {console.log(error)})
 })
 
-
+app.delete("/:id", (req, res) => {
+    Item.findByIdAndRemove(req.params.id)
+        .then(result => {
+            res.status(204).end()
+        })
+        .catch(error => next(error))
+})
 
 
 app.listen(PORT, () => {

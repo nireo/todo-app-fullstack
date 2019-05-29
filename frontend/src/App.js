@@ -39,14 +39,15 @@ const App = () => {
         setNewItem(event.target.value)
     }
 
-    /*
-    const handleRemove = (name) => {
-        const toBeDeleted = items.find(item => item.name === name)
 
-        if (window.confirm(`remove ${toBeDeleted.name}?`)) {
-
-        }
-    }*/
+    const handleRemove = (id) => {
+        itemService.remove(id).then(response => {
+            setItems(items.filter(item => item.id !== id))
+        }).catch(error => {
+            console.log(error)
+            setItems(items.filter(item => item.id !== id))
+        })
+    }
 
 
     return (
@@ -62,8 +63,7 @@ const App = () => {
                         <button type="submit" className="btn btn-primary mb-2">Add new</button>
                     </form>
                 </div>
-                <TodoItem items={items}/>
-
+                <TodoItem items={items} removeItem={handleRemove}/>
                 <small className="d-block text-right mt-3">
                     <a href="https://github.com/nireo/todo-app-fullstack" target="_blank" rel="noopener noreferrer">Github</a>
                 </small>
