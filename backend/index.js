@@ -1,55 +1,18 @@
-require("dotenv").config()
-const express = require("express")
-const Item = require("./models/item")
-const bodyParser = require("body-parser")
-const cors = require("cors")
+require('dotenv').config();
+const express = require('express');
+const Item = require('./models/item');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const itemRouter = require('./controllers/item');
 
-const app = express()
-const PORT = process.env.PORT
+const app = express();
+const PORT = process.env.PORT;
 
-app.use(bodyParser.json())
-app.use(cors())
+app.use(bodyParser.json());
+app.use(cors());
 
-
-app.get("/", (req, res) => {
-    Item.find({})
-        .then(items => {
-            res.json(items.map(item => item.toJSON()))
-        })
-        .catch(error => {console.log(error)})
-})
-
-app.post("/", (req, res) => {
-    const body = req.body
-
-    if (body === undefined) {
-        return res.status(400).json({error: "missing content"})
-    }
-
-    const item = new Item({
-        name: body.name,
-        itemTime: body.itemTime
-    })
-
-    item.save()
-        .then(savedItem => {
-            return savedItem.toJSON()
-        })
-        .then(savedAndFormatted => {
-            res.json(savedAndFormatted)
-        })
-        .catch(error => {console.log(error)})
-})
-
-app.delete("/:id", (req, res) => {
-    Item.findByIdAndRemove(req.params.id)
-        .then(result => {
-            res.status(204).end()
-        })
-        .catch(error => next(error))
-})
-
+app.use('/', itemRouter);
 
 app.listen(PORT, () => {
-    console.log(`server running on port ${PORT}`)
-})
+  console.log(`server running on port ${PORT}`);
+});
