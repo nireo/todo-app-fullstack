@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-export const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [remember, setRemember] = useState('');
-
+export const Form = ({
+  username,
+  password,
+  remember,
+  onSubmit,
+  setUsername,
+  setPassword,
+  setRemember,
+  title
+}) => {
   return (
-    <div className="text-center" style={{ marginTop: '5rem' }}>
-      <form className="form-signin">
-        <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <div
+      className="text-center"
+      style={{ marginTop: '5rem', paddingRight: '2rem', paddingLeft: '2rem' }}
+    >
+      <form className="form-signin" onSubmit={onSubmit}>
+        <h1 className="h3 mb-3 font-weight-normal">{title}</h1>
         <label for="inputUsername" className="sr-only">
           Email address
         </label>
@@ -36,6 +44,7 @@ export const Login = () => {
               type="checkbox"
               value={remember}
               onChange={({ target }) => setRemember(target.value)}
+              style={{ marginTop: '1rem' }}
             />{' '}
             Remember me
           </label>
@@ -43,7 +52,6 @@ export const Login = () => {
         <button className="btn btn-lg btn-primary btn-block" type="submit">
           Sign in
         </button>
-        <p className="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
       </form>
     </div>
   );
