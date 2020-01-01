@@ -1,9 +1,26 @@
 const router = require('express').Router();
 const Item = require('../models/item');
+const jwt = require('jsonwebtoken');
+
+const getToken = req => {
+  const authorization = req.get('authorization');
+  if (authorization && authorization.toLowerCase().startsWith('bearer')) {
+    return authorization.substring(7);
+  }
+  return null;
+};
 
 router.get('/', async (req, res) => {
+  const token = getToken(req);
   try {
-    const items = await Item.find();
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken) {
+      return res.status(401).json({
+        error: 'invalid token'
+      });
+    }
+
+    const items = await Item.find({ byUser: decodedToken.id });
     return res.json(items);
   } catch (e) {
     return res.status(500);
@@ -12,28 +29,54 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
   const { name, itemTime } = req.body;
+  const token = getToken(req);
+  try {
+    if (req.body === undefined) {
+      return res.status(400).json({
+        error: 'invalid body'
+      });
+    }
 
-  console.log(name);
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken) {
+      return res.status(401).json({
+        error: 'invalid token'
+      });
+    }
 
-  if (req.body === undefined) {
-    return res.status(400).json({
-      error: 'invalid body'
+    const item = new Item({
+      name,
+      itemTime,
+      byUser: decodedToken.id
     });
+
+    const saved = await item.save();
+    return res.json(saved);
+  } catch {
+    return res.status(500);
   }
-
-  const item = new Item({
-    name,
-    itemTime
-  });
-
-  const saved = await item.save();
-  return res.json(saved);
 });
 
 router.delete('/:id', async (req, res) => {
+  const token = getToken(req);
   try {
-    await Item.findByIdAndRemove(req.params.id);
-    return res.status(204).end();
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    if (!token || !decodedToken) {
+      return res.status(401).json({
+        error: 'invalid token'
+      });
+    }
+
+    const item = await Item.findById(req.params.id);
+
+    if (item.byUser.toString() === decodedToken.id) {
+      await Item.findByIdAndRemove(req.params.id);
+      return res.status(204).end();
+    }
+
+    return res.status(403).json({
+      error: 'forbidden'
+    });
   } catch {
     return res.status(500);
   }

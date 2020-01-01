@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 mongoose.set('useFindAndModify', false);
 
 // set database url
@@ -23,14 +24,10 @@ const itemSchema = new mongoose.Schema({
   itemTime: {
     type: String,
     required: true
-  }
-});
-
-itemSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id;
-    delete returnedObject._id;
-    delete returnedObject.__V;
+  },
+  byUser: {
+    type: Schema.Types.ObjectId,
+    ref: 'Item'
   }
 });
 
