@@ -5,19 +5,15 @@ const TodoItem = ({ items, removeItem }) => {
     <div>
       {items.map(item => (
         <div className="media text-muted pt-3">
-          <p className="pb-2 mb-0 small border-bottom border-gray">
-            <button
-              className="btn btn-primary pb-0 mb-0 btn-sm "
-              onClick={() => removeItem(item.id)}
-            >
-              delete
+          <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+            <div>{item.name}</div>
+            <button className="link" onClick={() => removeItem(item.id)}>
+              Delete
             </button>
           </p>
-          <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-            {item.name}
-          </p>
           <p className="pb-3 mb-0 small border-bottom border-gray">
-            Added: {item.itemTime}
+            <div>Added</div>
+            {item.itemTime}
           </p>
         </div>
       ))}

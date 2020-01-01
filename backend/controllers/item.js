@@ -13,6 +13,8 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const { name, itemTime } = req.body;
 
+  console.log(name);
+
   if (req.body === undefined) {
     return res.status(400).json({
       error: 'invalid body'
