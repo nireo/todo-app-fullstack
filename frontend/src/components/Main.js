@@ -3,7 +3,7 @@ import TodoItem from './todoitem';
 import itemService from '../services/item';
 import { Modal } from './Modal';
 
-export const Main = () => {
+export const Main = ({ setUser }) => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
@@ -16,8 +16,8 @@ export const Main = () => {
 
   useEffect(() => {
     const getItems = async () => {
-      const items = await itemService.getAll();
-      setItems(items);
+      //  const items = await itemService.getAll();
+      //  setItems(items);
     };
 
     if (!loaded) {
@@ -86,9 +86,17 @@ export const Main = () => {
             onChange={({ target }) => setNewItem(target.value)}
             className="form-control"
           />
-          <button type="submit" className="btn btn-primary mt-1">
-            Add
-          </button>
+          <div>
+            <button type="submit" className="btn btn-primary mt-1 mr-2">
+              Add
+            </button>
+            <button
+              className="btn btn-danger mt-1"
+              onClick={() => setUser(null)}
+            >
+              Sign out
+            </button>
+          </div>
         </form>
       </div>
     </div>

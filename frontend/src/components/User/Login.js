@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from './Form';
 import userService from '../../services/user';
+import itemService from '../../services/item';
 
 export const Login = ({ setUser, setShowRegister }) => {
   const [username, setUsername] = useState('');
@@ -13,16 +14,15 @@ export const Login = ({ setUser, setShowRegister }) => {
     const credentials = { username, password };
     const user = await userService.login(credentials);
 
-    if (user) {
-      setUser(user);
+    setUser(user.user);
+    itemService.setToken(user.token);
 
-      if (!remember) {
-        return;
-      }
-
-      window.localStorage.setItem('user', JSON.stringify(user));
+    if (!remember) {
       return;
     }
+
+    window.localStorage.setItem('user', JSON.stringify(user));
+    return;
   };
 
   return (

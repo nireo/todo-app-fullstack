@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from './Form';
 import userService from '../../services/user';
+import axios from 'axios';
 
 export const Register = ({ setUser, setShowRegister }) => {
   const [username, setUsername] = useState('');
@@ -9,20 +10,18 @@ export const Register = ({ setUser, setShowRegister }) => {
 
   const register = async event => {
     event.preventDefault();
+    console.log('here');
 
     const credentials = { username, password };
     const user = await userService.register(credentials);
 
-    if (user) {
-      setUser(user);
-
-      if (!remember) {
-        return;
-      }
-
-      window.localStorage.setItem('user', JSON.stringify(user));
+    setUser(user);
+    if (!remember) {
       return;
     }
+
+    window.localStorage.setItem('user', JSON.stringify(user));
+    return;
   };
 
   return (

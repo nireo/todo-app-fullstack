@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 router.post('/register', async (req, res) => {
   const { username, password } = req.body;
   try {
-    if (!username || !password || !email) {
+    if (!username || !password) {
       return res.status(400).json({
         error: 'invalid body'
       });
