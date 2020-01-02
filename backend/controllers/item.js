@@ -10,6 +10,11 @@ const getToken = req => {
   return null;
 };
 
+router.get('/all', async (req, res) => {
+  const items = await Item.find({});
+  return res.json(items);
+});
+
 router.get('/', async (req, res) => {
   const token = getToken(req);
   try {

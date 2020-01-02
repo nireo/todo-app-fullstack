@@ -17,7 +17,7 @@ export const Form = ({
     >
       <form className="form-signin" onSubmit={onSubmit}>
         <h1 className="h3 mb-3 font-weight-normal">{title}</h1>
-        <label for="inputUsername" className="sr-only">
+        <label htmlFor="inputUsername" className="sr-only">
           Email address
         </label>
         <input
@@ -27,7 +27,7 @@ export const Form = ({
           value={username}
           onChange={({ target }) => setUsername(target.value)}
         />
-        <label for="inputPassword" className="sr-only">
+        <label htmlFor="inputPassword" className="sr-only">
           Password
         </label>
         <input

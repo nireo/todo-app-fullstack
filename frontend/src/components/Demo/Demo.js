@@ -1,30 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import TodoItem from './todoitem';
-import itemService from '../services/item';
-import { Modal } from './Modal';
+import TodoItem from '../todoitem';
 
-export const Main = ({ setUser }) => {
+export const Demo = ({ setUser }) => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
-  const [loaded, setLoaded] = useState(false);
   const [show, setShow] = useState(false);
-
-  const handleClose = () => {
-    setShow(false);
-  };
-
-  useEffect(() => {
-    const getItems = async () => {
-      const items = await itemService.getAll();
-      setItems(items);
-    };
-
-    if (!loaded) {
-      getItems();
-      setLoaded(false);
-    }
-  }, [loaded]);
 
   const addZero = number => {
     if (number < 10) {
@@ -43,7 +24,6 @@ export const Main = ({ setUser }) => {
       itemTime: `${time.getHours()}:${addZero(time.getMinutes())}`
     };
 
-    itemService.create(template);
     setItems(items.concat(template));
     setNewItem('');
   };
@@ -54,18 +34,12 @@ export const Main = ({ setUser }) => {
       )
     : items;
 
-  const handleRemove = async id => {
-    await itemService.remove(id);
-    setItems(items.filter(item => item.id !== id));
+  const handleRemove = name => {
+    setItems(items.filter(item => item.name !== name));
   };
 
   return (
     <div className="container">
-      <Modal show={show} handleClose={handleClose}>
-        <div className="container">
-          <h3>Create item.</h3>
-        </div>
-      </Modal>
       <div className="my-3 p-3 bg-white rounded shadow-sm">
         <h4 className="border-bottom border-gray pb-2 mb-0">Todo list</h4>
         <div className="media text-muted pt-3">
@@ -79,7 +53,7 @@ export const Main = ({ setUser }) => {
             </div>
           </form>
         </div>
-        <TodoItem items={searchedItems} removeItem={handleRemove} />
+        <TodoItem items={searchedItems} removeItem={handleRemove} type="demo" />
         <form style={{ marginTop: '1rem' }} onSubmit={addItems}>
           <input
             value={newItem}
@@ -94,7 +68,7 @@ export const Main = ({ setUser }) => {
               className="btn btn-danger mt-1"
               onClick={() => setUser(null)}
             >
-              Sign out
+              Exit demo
             </button>
           </div>
         </form>
