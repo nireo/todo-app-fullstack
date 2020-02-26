@@ -72,15 +72,8 @@ router.delete('/:id', async (req, res) => {
       });
     }
 
-    const item = await Item.findById(req.params.id);
-
-    if (item.byUser.toString() === decodedToken.id) {
-      await Item.findByIdAndRemove(req.params.id);
+    await Item.findByIdAndRemove(req.params.id).exec(() => {
       return res.status(204).end();
-    }
-
-    return res.status(403).json({
-      error: 'forbidden'
     });
   } catch {
     return res.status(500);

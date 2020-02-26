@@ -1,6 +1,12 @@
 import React from 'react';
+import itemService from '../services/item';
 
-const TodoItem = ({ items, removeItem, type }) => {
+const TodoItem = ({ items, type, setItems, removeItem }) => {
+  const remove = async id => {
+    await itemService.remove(id);
+    setItems(items.filter(item => item.id !== id));
+  };
+
   return (
     <div>
       {items.map(item => (
@@ -8,7 +14,7 @@ const TodoItem = ({ items, removeItem, type }) => {
           <p className="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
             <div>{item.name}</div>
             {type === undefined ? (
-              <button className="link" onClick={() => removeItem(item.id)}>
+              <button className="link" onClick={() => remove(item.id)}>
                 Delete
               </button>
             ) : (

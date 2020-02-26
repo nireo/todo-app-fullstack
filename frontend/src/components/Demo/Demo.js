@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import TodoItem from '../todoitem';
 
 export const Demo = ({ setUser }) => {
   const [items, setItems] = useState([]);
   const [newItem, setNewItem] = useState('');
   const [search, setSearch] = useState('');
-  const [show, setShow] = useState(false);
 
   const addZero = number => {
     if (number < 10) {

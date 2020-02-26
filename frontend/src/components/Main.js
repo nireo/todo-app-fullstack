@@ -17,6 +17,7 @@ export const Main = ({ setUser }) => {
   useEffect(() => {
     const getItems = async () => {
       const items = await itemService.getAll();
+      console.log('hello');
       setItems(items);
     };
 
@@ -54,11 +55,6 @@ export const Main = ({ setUser }) => {
       )
     : items;
 
-  const handleRemove = async id => {
-    await itemService.remove(id);
-    setItems(items.filter(item => item.id !== id));
-  };
-
   return (
     <div className="container">
       <Modal show={show} handleClose={handleClose}>
@@ -79,7 +75,7 @@ export const Main = ({ setUser }) => {
             </div>
           </form>
         </div>
-        <TodoItem items={searchedItems} removeItem={handleRemove} />
+        <TodoItem items={searchedItems} setItems={setItems} />
         <form style={{ marginTop: '1rem' }} onSubmit={addItems}>
           <input
             value={newItem}
@@ -92,7 +88,10 @@ export const Main = ({ setUser }) => {
             </button>
             <button
               className="btn btn-danger mt-1"
-              onClick={() => setUser(null)}
+              onClick={() => {
+                localStorage.clear();
+                setUser(null);
+              }}
             >
               Sign out
             </button>

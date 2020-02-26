@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Form } from './Form';
 import userService from '../../services/user';
 import itemService from '../../services/item';
+import { Link } from 'react-router-dom';
 
 export const Login = ({ setUser, setShowRegister }) => {
   const [username, setUsername] = useState('');
@@ -17,16 +18,14 @@ export const Login = ({ setUser, setShowRegister }) => {
     setUser(user.user);
     itemService.setToken(user.token);
 
-    if (!remember) {
-      return;
+    if (remember) {
+      window.localStorage.setItem('todo-user', JSON.stringify(user));
     }
-
-    window.localStorage.setItem('user', JSON.stringify(user));
-    return;
   };
 
   return (
     <div className="container">
+      <Link to="/demo">Or go to demo</Link>
       <Form
         title="Login"
         username={username}

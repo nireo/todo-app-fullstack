@@ -38,17 +38,19 @@ export const Form = ({
           value={password}
           onChange={({ target }) => setPassword(target.value)}
         />
-        <div className="checkbox mb-3">
-          <label>
-            <input
-              type="checkbox"
-              value={remember}
-              onChange={({ target }) => setRemember(target.value)}
-              style={{ marginTop: '1rem' }}
-            />{' '}
-            Remember me
-          </label>
-        </div>
+        {title === 'Login' && (
+          <div className="checkbox mb-3">
+            <label>
+              <input
+                type="checkbox"
+                value={remember}
+                onChange={({ target }) => setRemember(target.value)}
+                style={{ marginTop: '1rem' }}
+              />{' '}
+              Remember me
+            </label>
+          </div>
+        )}
         <button className="btn btn-lg btn-primary btn-block" type="submit">
           Sign in
         </button>
